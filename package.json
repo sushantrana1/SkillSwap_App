@@ -1,0 +1,26 @@
+{
+  "name": "skillswap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "frontend": "npm run dev --prefix frontend",
+    "backend": "npm run dev --prefix backend",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sushantrana1/SkillSwap_Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sushantrana1/SkillSwap_Project/issues"
+  },
+  "homepage": "https://github.com/sushantrana1/SkillSwap_Project#readme",
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}
