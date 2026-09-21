@@ -5,11 +5,11 @@
 > **SkillSwap** is a full-stack skill exchange platform that connects people based on the skills they can teach and the skills they want to learn. Users can create profiles, discover compatible learners and teachers, send skill-swap requests, communicate through real-time chat, and receive activity notifications.
 
 <p align="center">
-  <a href="YOUR_FRONTEND_URL">
+  <a href="https://skill-swap-project-mu.vercel.app/">
     <strong>🌐 Live Demo</strong>
   </a>
   &nbsp;&nbsp;•&nbsp;&nbsp;
-  <a href="YOUR_GITHUB_REPOSITORY_URL">
+  <a href="https://github.com/sushantrana1/SkillSwap_Project">
     <strong>📦 Repository</strong>
   </a>
 </p>
@@ -447,7 +447,7 @@ Make sure you have the following installed:
 ## 1. Clone the Repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/sushantrana1/SkillSwap_Project.git
 
 cd SkillSwap
 ```
