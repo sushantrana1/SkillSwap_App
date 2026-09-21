@@ -49,11 +49,15 @@ connectDB();
 // MIDDLEWARE
 // ================================
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  }),
-);
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://skill-swap-project-mu.vercel.app"
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
 
 app.use(helmet());
 
