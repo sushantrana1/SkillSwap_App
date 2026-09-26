@@ -25,10 +25,6 @@ import { useAuth } from "../context/AuthContext";
    SKILL PICKER
 ========================================================= */
 
-/* =========================================================
-   SKILL PICKER
-========================================================= */
-
 const SkillPicker = ({
   type,
   value,
@@ -73,16 +69,29 @@ const SkillPicker = ({
 
       const skillCategory = String(skill.category || "");
 
-      const matchesSearch = search === "" || skillName.includes(search);
+      const matchesSearch =
+        search === "" || skillName.includes(search);
 
       const matchesCategory =
-        category === "All" || skillCategory === String(category);
+        category === "All" ||
+        skillCategory === String(category);
 
-      const alreadySelected = selectedIds.has(getSkillId(skill));
+      const alreadySelected = selectedIds.has(
+        getSkillId(skill),
+      );
 
-      return matchesSearch && matchesCategory && !alreadySelected;
+      return (
+        matchesSearch &&
+        matchesCategory &&
+        !alreadySelected
+      );
     });
-  }, [value, category, safeAvailableSkills, safeSelectedSkills]);
+  }, [
+    value,
+    category,
+    safeAvailableSkills,
+    safeSelectedSkills,
+  ]);
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -117,12 +126,18 @@ const SkillPicker = ({
                 : "bg-emerald-100 text-emerald-600"
             }`}
           >
-            {isTeach ? <GraduationCap size={21} /> : <BookOpen size={21} />}
+            {isTeach ? (
+              <GraduationCap size={21} />
+            ) : (
+              <BookOpen size={21} />
+            )}
           </div>
 
           <div className="min-w-0">
             <h3 className="font-semibold text-slate-900">
-              {isTeach ? "Skills I Can Teach" : "Skills I Want to Learn"}
+              {isTeach
+                ? "Skills I Can Teach"
+                : "Skills I Want to Learn"}
             </h3>
 
             <p className="mt-1 text-xs leading-5 text-slate-500">
@@ -152,7 +167,9 @@ const SkillPicker = ({
 
                 <button
                   type="button"
-                  onClick={() => onRemove(getSkillId(skill))}
+                  onClick={() =>
+                    onRemove(getSkillId(skill))
+                  }
                   className="rounded-full p-0.5 text-slate-400 transition hover:bg-slate-100 hover:text-red-500"
                   aria-label={`Remove ${skill.name}`}
                 >
@@ -163,7 +180,9 @@ const SkillPicker = ({
           </div>
         ) : (
           <div className="rounded-xl border border-dashed border-slate-300 bg-white/60 px-4 py-4 text-center">
-            <p className="text-xs text-slate-400">No skills selected yet</p>
+            <p className="text-xs text-slate-400">
+              No skills selected yet
+            </p>
           </div>
         )}
       </div>
@@ -180,7 +199,9 @@ const SkillPicker = ({
           <input
             type="text"
             value={value}
-            onChange={(event) => onChange(event.target.value)}
+            onChange={(event) =>
+              onChange(event.target.value)
+            }
             onKeyDown={handleKeyDown}
             placeholder={
               isTeach
@@ -208,12 +229,16 @@ const SkillPicker = ({
           <div className="relative">
             <select
               value={category}
-              onChange={(event) => onCategoryChange(event.target.value)}
+              onChange={(event) =>
+                onCategoryChange(event.target.value)
+              }
               className="w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-2.5 pr-10 text-xs font-medium text-slate-600 outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-50"
             >
               {categories.map((item) => (
                 <option key={item} value={item}>
-                  {item === "All" ? "All categories" : item}
+                  {item === "All"
+                    ? "All categories"
+                    : item}
                 </option>
               ))}
             </select>
@@ -230,38 +255,43 @@ const SkillPicker = ({
         <div className="mt-3">
           {filteredSkills.length > 0 ? (
             <div className="max-h-72 overflow-y-auto rounded-xl border border-slate-200 bg-white p-1.5 shadow-sm">
-              {filteredSkills.slice(0, 20).map((skill) => (
-                <button
-                  key={getSkillId(skill)}
-                  type="button"
-                  onClick={() => onAdd(skill)}
-                  className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left transition hover:bg-slate-50"
-                >
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-slate-800">
-                      {skill.name}
-                    </p>
-
-                    <p className="mt-0.5 text-[11px] text-slate-400">
-                      {skill.category || "General"}
-                    </p>
-                  </div>
-
-                  <span
-                    className={`ml-3 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${
-                      isTeach
-                        ? "bg-blue-50 text-blue-600"
-                        : "bg-emerald-50 text-emerald-600"
-                    }`}
+              {filteredSkills
+                .slice(0, 20)
+                .map((skill) => (
+                  <button
+                    key={getSkillId(skill)}
+                    type="button"
+                    onClick={() => onAdd(skill)}
+                    className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left transition hover:bg-slate-50"
                   >
-                    <Plus size={15} />
-                  </span>
-                </button>
-              ))}
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-medium text-slate-800">
+                        {skill.name}
+                      </p>
+
+                      <p className="mt-0.5 text-[11px] text-slate-400">
+                        {skill.category || "General"}
+                      </p>
+                    </div>
+
+                    <span
+                      className={`ml-3 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${
+                        isTeach
+                          ? "bg-blue-50 text-blue-600"
+                          : "bg-emerald-50 text-emerald-600"
+                      }`}
+                    >
+                      <Plus size={15} />
+                    </span>
+                  </button>
+                ))}
             </div>
           ) : (
             <div className="rounded-xl border border-slate-200 bg-white px-4 py-5 text-center">
-              <Search size={20} className="mx-auto text-slate-300" />
+              <Search
+                size={20}
+                className="mx-auto text-slate-300"
+              />
 
               <p className="mt-2 text-xs font-medium text-slate-500">
                 No matching skills found
@@ -308,7 +338,6 @@ const Profile = () => {
   const [learnSkill, setLearnSkill] = useState("");
 
   const [teachCategory, setTeachCategory] = useState("All");
-
   const [learnCategory, setLearnCategory] = useState("All");
 
   const [editing, setEditing] = useState(false);
@@ -326,23 +355,117 @@ const Profile = () => {
     try {
       const response = await api.get("/skills");
 
-      console.log("Skills API response:", response.data);
+      console.log(
+        "Skills API response:",
+        response.data,
+      );
 
       const skills =
-        response.data?.skills || response.data?.data || response.data || [];
+        response.data?.skills ||
+        response.data?.data ||
+        response.data ||
+        [];
 
-      setAvailableSkills(Array.isArray(skills) ? skills : []);
+      const safeSkills = Array.isArray(skills)
+        ? skills.filter(
+            (skill) =>
+              skill &&
+              (skill._id || skill.id) &&
+              skill.name,
+          )
+        : [];
+
+      setAvailableSkills(safeSkills);
+
+      return safeSkills;
     } catch (error) {
       console.error("Get skills error:", error);
+
       setAvailableSkills([]);
+
+      return [];
     }
+  };
+
+  /* =======================================================
+     NORMALIZE SAVED SKILLS
+     
+     This is the important fix.
+     
+     Sometimes the profile API gives:
+     
+     [
+       "64abc123...",
+       "64abc456..."
+     ]
+     
+     and sometimes it gives:
+     
+     [
+       {
+         _id: "...",
+         name: "JavaScript"
+       }
+     ]
+     
+     The editor needs full skill objects.
+  ======================================================= */
+
+  const normalizeSkills = (
+    savedSkills,
+    skillCatalog,
+  ) => {
+    if (!Array.isArray(savedSkills)) {
+      return [];
+    }
+
+    if (!Array.isArray(skillCatalog)) {
+      return [];
+    }
+
+    return savedSkills
+      .map((savedSkill) => {
+        const savedId =
+          typeof savedSkill === "object"
+            ? savedSkill?._id || savedSkill?.id
+            : savedSkill;
+
+        if (!savedId) {
+          return null;
+        }
+
+        const matchingSkill = skillCatalog.find(
+          (catalogSkill) =>
+            String(
+              catalogSkill?._id ||
+                catalogSkill?.id ||
+                "",
+            ) === String(savedId),
+        );
+
+        if (matchingSkill) {
+          return matchingSkill;
+        }
+
+        // If the API already returned a complete object,
+        // keep it.
+        if (
+          typeof savedSkill === "object" &&
+          savedSkill.name
+        ) {
+          return savedSkill;
+        }
+
+        return null;
+      })
+      .filter(Boolean);
   };
 
   /* =======================================================
      GET PROFILE
   ======================================================= */
 
-  const getProfile = async () => {
+  const getProfile = async (skillCatalog = []) => {
     try {
       const token = localStorage.getItem("token");
 
@@ -352,33 +475,78 @@ const Profile = () => {
         },
       });
 
-      const data = response.data.profile;
+      const data = response.data?.profile;
 
-      setProfile(data);
+      if (!data) {
+        setProfile(null);
+        return;
+      }
+
+      console.log("Profile API response:", data);
+
+      const normalizedTeachSkills =
+        normalizeSkills(
+          data.skillsToTeach,
+          skillCatalog,
+        );
+
+      const normalizedLearnSkills =
+        normalizeSkills(
+          data.skillsToLearn,
+          skillCatalog,
+        );
+
+      const normalizedProfile = {
+        ...data,
+        skillsToTeach: normalizedTeachSkills,
+        skillsToLearn: normalizedLearnSkills,
+      };
+
+      setProfile(normalizedProfile);
 
       setFormData({
-        bio: data.bio || "",
-        location: data.location || "",
-        profileImage: data.profileImage || "",
-        skillsToTeach: data.skillsToTeach || [],
-        skillsToLearn: data.skillsToLearn || [],
-        experience: data.experience || "",
-        availability: data.availability || "",
+        bio: normalizedProfile.bio || "",
+        location: normalizedProfile.location || "",
+        profileImage:
+          normalizedProfile.profileImage || "",
+        skillsToTeach: normalizedTeachSkills,
+        skillsToLearn: normalizedLearnSkills,
+        experience:
+          normalizedProfile.experience || "",
+        availability:
+          normalizedProfile.availability || "",
       });
     } catch (error) {
       console.error("Get profile error:", error);
 
       if (error.response?.status !== 404) {
-        setError(error.response?.data?.message || "Failed to load profile");
+        setError(
+          error.response?.data?.message ||
+            "Failed to load profile",
+        );
       }
     } finally {
       setLoading(false);
     }
   };
 
+  /* =======================================================
+     LOAD PROFILE + SKILLS
+     
+     Skills are loaded FIRST so saved skill IDs can
+     be converted into skill objects.
+  ======================================================= */
+
   useEffect(() => {
-    getProfile();
-    getSkills();
+    const loadPage = async () => {
+      setLoading(true);
+
+      const skills = await getSkills();
+
+      await getProfile(skills);
+    };
+
+    loadPage();
   }, []);
 
   /* =======================================================
@@ -388,7 +556,9 @@ const Profile = () => {
   const categories = useMemo(() => {
     const uniqueCategories = [
       ...new Set(
-        availableSkills.map((skill) => skill?.category).filter(Boolean),
+        availableSkills
+          .map((skill) => skill?.category)
+          .filter(Boolean),
       ),
     ];
 
@@ -441,15 +611,24 @@ const Profile = () => {
   const addTeachSkill = (skill) => {
     if (!skill) return;
 
+    const skillId = String(
+      skill._id || skill.id || "",
+    );
+
     const exists = formData.skillsToTeach.some(
-      (item) => String(item?._id) === String(skill?._id),
+      (item) =>
+        String(item?._id || item?.id || "") ===
+        skillId,
     );
 
     if (exists) return;
 
     setFormData((previous) => ({
       ...previous,
-      skillsToTeach: [...previous.skillsToTeach, skill],
+      skillsToTeach: [
+        ...previous.skillsToTeach,
+        skill,
+      ],
     }));
 
     setTeachSkill("");
@@ -463,15 +642,24 @@ const Profile = () => {
   const addLearnSkill = (skill) => {
     if (!skill) return;
 
+    const skillId = String(
+      skill._id || skill.id || "",
+    );
+
     const exists = formData.skillsToLearn.some(
-      (item) => String(item?._id) === String(skill?._id),
+      (item) =>
+        String(item?._id || item?.id || "") ===
+        skillId,
     );
 
     if (exists) return;
 
     setFormData((previous) => ({
       ...previous,
-      skillsToLearn: [...previous.skillsToLearn, skill],
+      skillsToLearn: [
+        ...previous.skillsToLearn,
+        skill,
+      ],
     }));
 
     setLearnSkill("");
@@ -485,9 +673,13 @@ const Profile = () => {
   const removeTeachSkill = (skillId) => {
     setFormData((previous) => ({
       ...previous,
-      skillsToTeach: previous.skillsToTeach.filter(
-        (skill) => String(skill?._id) !== String(skillId),
-      ),
+      skillsToTeach:
+        previous.skillsToTeach.filter(
+          (skill) =>
+            String(
+              skill?._id || skill?.id || "",
+            ) !== String(skillId),
+        ),
     }));
   };
 
@@ -498,9 +690,13 @@ const Profile = () => {
   const removeLearnSkill = (skillId) => {
     setFormData((previous) => ({
       ...previous,
-      skillsToLearn: previous.skillsToLearn.filter(
-        (skill) => String(skill?._id) !== String(skillId),
-      ),
+      skillsToLearn:
+        previous.skillsToLearn.filter(
+          (skill) =>
+            String(
+              skill?._id || skill?.id || "",
+            ) !== String(skillId),
+        ),
     }));
   };
 
@@ -514,6 +710,32 @@ const Profile = () => {
 
     setSelectedImage(null);
     setImagePreview("");
+
+    /*
+      Re-normalize the skills when entering edit mode.
+      This makes sure the editor always has complete
+      skill objects.
+    */
+
+    if (profile) {
+      const normalizedTeachSkills =
+        normalizeSkills(
+          profile.skillsToTeach,
+          availableSkills,
+        );
+
+      const normalizedLearnSkills =
+        normalizeSkills(
+          profile.skillsToLearn,
+          availableSkills,
+        );
+
+      setFormData((previous) => ({
+        ...previous,
+        skillsToTeach: normalizedTeachSkills,
+        skillsToLearn: normalizedLearnSkills,
+      }));
+    }
 
     setEditing(true);
 
@@ -529,14 +751,27 @@ const Profile = () => {
 
   const handleCancel = () => {
     if (profile) {
+      const normalizedTeachSkills =
+        normalizeSkills(
+          profile.skillsToTeach,
+          availableSkills,
+        );
+
+      const normalizedLearnSkills =
+        normalizeSkills(
+          profile.skillsToLearn,
+          availableSkills,
+        );
+
       setFormData({
         bio: profile.bio || "",
         location: profile.location || "",
         profileImage: profile.profileImage || "",
-        skillsToTeach: profile.skillsToTeach || [],
-        skillsToLearn: profile.skillsToLearn || [],
+        skillsToTeach: normalizedTeachSkills,
+        skillsToLearn: normalizedLearnSkills,
         experience: profile.experience || "",
-        availability: profile.availability || "",
+        availability:
+          profile.availability || "",
       });
     }
 
@@ -569,47 +804,127 @@ const Profile = () => {
 
       const data = new FormData();
 
-      data.append("bio", formData.bio);
-      data.append("location", formData.location);
-      data.append("experience", formData.experience);
-      data.append("availability", formData.availability);
+      data.append("bio", formData.bio || "");
+      data.append(
+        "location",
+        formData.location || "",
+      );
+      data.append(
+        "experience",
+        formData.experience || "",
+      );
+      data.append(
+        "availability",
+        formData.availability || "",
+      );
+
+      /* ============================================
+         SEND TEACHING SKILLS
+      ============================================ */
 
       formData.skillsToTeach.forEach((skill) => {
-        data.append("skillsToTeach", skill.name);
+        if (skill?.name) {
+          data.append(
+            "skillsToTeach",
+            skill.name,
+          );
+        }
       });
+
+      /* ============================================
+         SEND LEARNING SKILLS
+      ============================================ */
 
       formData.skillsToLearn.forEach((skill) => {
-        data.append("skillsToLearn", skill.name);
+        if (skill?.name) {
+          data.append(
+            "skillsToLearn",
+            skill.name,
+          );
+        }
       });
+
+      /* ============================================
+         SEND IMAGE ONLY IF A NEW IMAGE WAS SELECTED
+      ============================================ */
 
       if (selectedImage) {
-        data.append("profileImage", selectedImage);
+        data.append(
+          "profileImage",
+          selectedImage,
+        );
       }
 
-      const response = await api.post("/profile", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await api.post(
+        "/profile",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
-      const profileResponse = await api.get("/profile/me", {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      /* ============================================
+         GET UPDATED PROFILE
+         
+         Get skills again and normalize the response
+         so the UI always has full skill objects.
+      ============================================ */
+
+      const profileResponse = await api.get(
+        "/profile/me",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
-      const updatedProfile = profileResponse.data.profile;
+      const updatedProfile =
+        profileResponse.data?.profile;
 
-      setProfile(updatedProfile);
+      if (!updatedProfile) {
+        throw new Error(
+          "Updated profile was not returned.",
+        );
+      }
+
+      const normalizedTeachSkills =
+        normalizeSkills(
+          updatedProfile.skillsToTeach,
+          availableSkills,
+        );
+
+      const normalizedLearnSkills =
+        normalizeSkills(
+          updatedProfile.skillsToLearn,
+          availableSkills,
+        );
+
+      const normalizedUpdatedProfile = {
+        ...updatedProfile,
+        skillsToTeach: normalizedTeachSkills,
+        skillsToLearn: normalizedLearnSkills,
+      };
+
+      setProfile(normalizedUpdatedProfile);
 
       setFormData({
-        bio: updatedProfile.bio || "",
-        location: updatedProfile.location || "",
-        profileImage: updatedProfile.profileImage || "",
-        skillsToTeach: updatedProfile.skillsToTeach || [],
-        skillsToLearn: updatedProfile.skillsToLearn || [],
-        experience: updatedProfile.experience || "",
-        availability: updatedProfile.availability || "",
+        bio: normalizedUpdatedProfile.bio || "",
+        location:
+          normalizedUpdatedProfile.location || "",
+        profileImage:
+          normalizedUpdatedProfile.profileImage ||
+          "",
+        skillsToTeach:
+          normalizedTeachSkills,
+        skillsToLearn:
+          normalizedLearnSkills,
+        experience:
+          normalizedUpdatedProfile.experience || "",
+        availability:
+          normalizedUpdatedProfile.availability || "",
       });
 
       setSelectedImage(null);
@@ -621,7 +936,10 @@ const Profile = () => {
       setTeachCategory("All");
       setLearnCategory("All");
 
-      setMessage(response.data.message || "Profile updated successfully.");
+      setMessage(
+        response.data?.message ||
+          "Profile updated successfully.",
+      );
 
       setEditing(false);
 
@@ -630,9 +948,16 @@ const Profile = () => {
         behavior: "smooth",
       });
     } catch (error) {
-      console.error("Save profile error:", error);
+      console.error(
+        "Save profile error:",
+        error,
+      );
 
-      setError(error.response?.data?.message || "Failed to save profile");
+      setError(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to save profile",
+      );
     } finally {
       setSaving(false);
     }
@@ -650,6 +975,7 @@ const Profile = () => {
 
           <div className="mt-6 grid gap-6 lg:grid-cols-[280px_1fr]">
             <div className="h-96 rounded-3xl bg-white" />
+
             <div className="h-96 rounded-3xl bg-white" />
           </div>
         </div>
@@ -664,7 +990,7 @@ const Profile = () => {
   if (!editing) {
     return (
       <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 sm:py-10">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-7xl">
           {/* PAGE HEADER */}
 
           <div className="mb-6 flex items-start justify-between gap-4">
@@ -679,12 +1005,11 @@ const Profile = () => {
               </h1>
 
               <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500 sm:text-base">
-                Showcase what you know, what you want to learn, and connect with
-                people who complement your skills.
+                Showcase what you know, what you want
+                to learn, and connect with people who
+                complement your skills.
               </p>
             </div>
-
-            {/* RESPONSIVE EDIT BUTTON */}
 
             <button
               type="button"
@@ -694,7 +1019,9 @@ const Profile = () => {
             >
               <Pencil size={16} />
 
-              <span className="hidden sm:inline">Edit Profile</span>
+              <span className="hidden sm:inline">
+                Edit Profile
+              </span>
             </button>
           </div>
 
@@ -702,7 +1029,10 @@ const Profile = () => {
 
           {message && (
             <div className="mb-6 flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4 text-sm text-emerald-700">
-              <Check size={18} className="shrink-0" />
+              <Check
+                size={18}
+                className="shrink-0"
+              />
 
               <span>{message}</span>
             </div>
@@ -736,7 +1066,10 @@ const Profile = () => {
                     />
                   ) : (
                     <div className="flex h-28 w-28 items-center justify-center rounded-3xl border border-white/20 bg-white/10">
-                      <User size={48} className="text-white/80" />
+                      <User
+                        size={48}
+                        className="text-white/80"
+                      />
                     </div>
                   )}
 
@@ -756,6 +1089,7 @@ const Profile = () => {
                     {profile?.location && (
                       <div className="mt-3 flex items-center gap-2 text-sm text-white/90">
                         <MapPin size={16} />
+
                         {profile.location}
                       </div>
                     )}
@@ -767,7 +1101,8 @@ const Profile = () => {
                 <div className="grid grid-cols-2 gap-3 sm:flex">
                   <div className="min-w-[120px] rounded-2xl border border-white/15 bg-white/10 px-5 py-4 text-center backdrop-blur">
                     <p className="text-2xl font-bold text-white">
-                      {profile?.skillsToTeach?.length || 0}
+                      {profile?.skillsToTeach
+                        ?.length || 0}
                     </p>
 
                     <p className="mt-1 text-xs font-medium text-blue-100/80">
@@ -777,7 +1112,8 @@ const Profile = () => {
 
                   <div className="min-w-[120px] rounded-2xl border border-white/15 bg-white/10 px-5 py-4 text-center backdrop-blur">
                     <p className="text-2xl font-bold text-white">
-                      {profile?.skillsToLearn?.length || 0}
+                      {profile?.skillsToLearn
+                        ?.length || 0}
                     </p>
 
                     <p className="mt-1 text-xs font-medium text-blue-100/80">
@@ -796,6 +1132,7 @@ const Profile = () => {
 
             <aside className="space-y-5">
               {/* EXPERIENCE */}
+
               <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                 <div className="flex items-start gap-3">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
@@ -808,12 +1145,15 @@ const Profile = () => {
                     </p>
 
                     <p className="mt-2 break-words text-sm font-semibold text-slate-800">
-                      {profile?.experience || "Not specified"}
+                      {profile?.experience ||
+                        "Not specified"}
                     </p>
                   </div>
                 </div>
               </div>
+
               {/* AVAILABILITY */}
+
               <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                 <div className="flex items-start gap-3">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
@@ -826,21 +1166,26 @@ const Profile = () => {
                     </p>
 
                     <p className="mt-2 break-words text-sm font-semibold text-slate-800">
-                      {profile?.availability || "Not specified"}
+                      {profile?.availability ||
+                        "Not specified"}
                     </p>
                   </div>
                 </div>
               </div>
 
               {/* PROFILE TIP */}
+
               <div className="hidden rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-5 text-white shadow-lg sm:block">
                 <Sparkles size={20} />
 
-                <h3 className="mt-4 font-semibold">Build a stronger profile</h3>
+                <h3 className="mt-4 font-semibold">
+                  Build a stronger profile
+                </h3>
 
                 <p className="mt-2 text-sm leading-6 text-blue-100">
-                  Add more relevant skills and a thoughtful bio to improve your
-                  chances of finding useful matches.
+                  Add more relevant skills and a
+                  thoughtful bio to improve your chances
+                  of finding useful matches.
                 </p>
 
                 <button
@@ -865,9 +1210,13 @@ const Profile = () => {
                   </div>
 
                   <div>
-                    <h3 className="font-semibold text-slate-950">About me</h3>
+                    <h3 className="font-semibold text-slate-950">
+                      About me
+                    </h3>
 
-                    <p className="text-xs text-slate-400">Your introduction</p>
+                    <p className="text-xs text-slate-400">
+                      Your introduction
+                    </p>
                   </div>
                 </div>
 
@@ -898,26 +1247,34 @@ const Profile = () => {
                   </div>
 
                   <span className="w-fit rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
-                    {profile?.skillsToTeach?.length || 0} skills
+                    {profile?.skillsToTeach
+                      ?.length || 0}{" "}
+                    skills
                   </span>
                 </div>
 
-                {profile?.skillsToTeach?.length > 0 ? (
+                {profile?.skillsToTeach?.length >
+                0 ? (
                   <div className="mt-6 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-                    {profile.skillsToTeach.map((skill) => (
-                      <div
-                        key={skill._id}
-                        className="flex items-center gap-3 rounded-xl border border-blue-100 bg-blue-50/50 px-4 py-3"
-                      >
-                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-blue-600 shadow-sm">
-                          <Check size={15} />
-                        </div>
+                    {profile.skillsToTeach.map(
+                      (skill) => (
+                        <div
+                          key={
+                            skill._id ||
+                            skill.id
+                          }
+                          className="flex items-center gap-3 rounded-xl border border-blue-100 bg-blue-50/50 px-4 py-3"
+                        >
+                          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-blue-600 shadow-sm">
+                            <Check size={15} />
+                          </div>
 
-                        <span className="text-sm font-semibold text-blue-800">
-                          {skill.name}
-                        </span>
-                      </div>
-                    ))}
+                          <span className="text-sm font-semibold text-blue-800">
+                            {skill.name}
+                          </span>
+                        </div>
+                      ),
+                    )}
                   </div>
                 ) : (
                   <div className="mt-5 rounded-xl border border-dashed border-slate-200 px-4 py-8 text-center">
@@ -949,26 +1306,34 @@ const Profile = () => {
                   </div>
 
                   <span className="w-fit rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                    {profile?.skillsToLearn?.length || 0} skills
+                    {profile?.skillsToLearn
+                      ?.length || 0}{" "}
+                    skills
                   </span>
                 </div>
 
-                {profile?.skillsToLearn?.length > 0 ? (
+                {profile?.skillsToLearn?.length >
+                0 ? (
                   <div className="mt-6 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-                    {profile.skillsToLearn.map((skill) => (
-                      <div
-                        key={skill._id}
-                        className="flex items-center gap-3 rounded-xl border border-emerald-100 bg-emerald-50/50 px-4 py-3"
-                      >
-                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-emerald-600 shadow-sm">
-                          <BookOpen size={15} />
-                        </div>
+                    {profile.skillsToLearn.map(
+                      (skill) => (
+                        <div
+                          key={
+                            skill._id ||
+                            skill.id
+                          }
+                          className="flex items-center gap-3 rounded-xl border border-emerald-100 bg-emerald-50/50 px-4 py-3"
+                        >
+                          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-emerald-600 shadow-sm">
+                            <BookOpen size={15} />
+                          </div>
 
-                        <span className="text-sm font-semibold text-emerald-800">
-                          {skill.name}
-                        </span>
-                      </div>
-                    ))}
+                          <span className="text-sm font-semibold text-emerald-800">
+                            {skill.name}
+                          </span>
+                        </div>
+                      ),
+                    )}
                   </div>
                 ) : (
                   <div className="mt-5 rounded-xl border border-dashed border-slate-200 px-4 py-8 text-center">
@@ -991,7 +1356,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 sm:py-10">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-6xl">
         {/* EDIT HEADER */}
 
         <div className="mb-6 flex items-start gap-3">
@@ -1014,8 +1379,8 @@ const Profile = () => {
             </h1>
 
             <p className="mt-2 text-sm leading-6 text-slate-500">
-              Keep your profile updated so SkillSwap can find better connections
-              for you.
+              Keep your profile updated so SkillSwap
+              can find better connections for you.
             </p>
           </div>
         </div>
@@ -1025,6 +1390,7 @@ const Profile = () => {
         {message && (
           <div className="mb-6 flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4 text-sm text-emerald-700">
             <Check size={18} />
+
             {message}
           </div>
         )}
@@ -1035,29 +1401,42 @@ const Profile = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6"
+        >
           {/* PROFILE PHOTO */}
 
           <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <div className="border-b border-slate-100 px-5 py-5 sm:px-7">
-              <h2 className="font-semibold text-slate-950">Profile photo</h2>
+              <h2 className="font-semibold text-slate-950">
+                Profile photo
+              </h2>
 
               <p className="mt-1 text-sm text-slate-500">
-                Choose a clear image that represents you.
+                Choose a clear image that represents
+                you.
               </p>
             </div>
 
             <div className="flex flex-col gap-5 px-5 py-6 sm:flex-row sm:items-center sm:px-7">
               <div className="relative">
-                {imagePreview || formData.profileImage ? (
+                {imagePreview ||
+                formData.profileImage ? (
                   <img
-                    src={imagePreview || formData.profileImage}
+                    src={
+                      imagePreview ||
+                      formData.profileImage
+                    }
                     alt="Profile preview"
                     className="h-28 w-28 rounded-3xl object-cover shadow-md ring-4 ring-slate-100"
                   />
                 ) : (
                   <div className="flex h-28 w-28 items-center justify-center rounded-3xl bg-blue-50 ring-4 ring-slate-100">
-                    <User size={42} className="text-blue-600" />
+                    <User
+                      size={42}
+                      className="text-blue-600"
+                    />
                   </div>
                 )}
 
@@ -1097,10 +1476,13 @@ const Profile = () => {
 
           <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
             <div className="mb-6">
-              <h2 className="font-semibold text-slate-950">About you</h2>
+              <h2 className="font-semibold text-slate-950">
+                About you
+              </h2>
 
               <p className="mt-1 text-sm text-slate-500">
-                Give other members some context about you.
+                Give other members some context about
+                you.
               </p>
             </div>
 
@@ -1164,8 +1546,8 @@ const Profile = () => {
               </h2>
 
               <p className="mt-1 text-sm leading-6 text-slate-500">
-                Search the SkillSwap catalog and select the skills you want to
-                teach or learn.
+                Search the SkillSwap catalog and select
+                the skills you want to teach or learn.
               </p>
             </div>
 
@@ -1175,8 +1557,12 @@ const Profile = () => {
                 value={teachSkill}
                 onChange={setTeachSkill}
                 category={teachCategory}
-                onCategoryChange={setTeachCategory}
-                selectedSkills={formData.skillsToTeach}
+                onCategoryChange={
+                  setTeachCategory
+                }
+                selectedSkills={
+                  formData.skillsToTeach
+                }
                 availableSkills={availableSkills}
                 categories={categories}
                 onAdd={addTeachSkill}
@@ -1188,8 +1574,12 @@ const Profile = () => {
                 value={learnSkill}
                 onChange={setLearnSkill}
                 category={learnCategory}
-                onCategoryChange={setLearnCategory}
-                selectedSkills={formData.skillsToLearn}
+                onCategoryChange={
+                  setLearnCategory
+                }
+                selectedSkills={
+                  formData.skillsToLearn
+                }
                 availableSkills={availableSkills}
                 categories={categories}
                 onAdd={addLearnSkill}
@@ -1207,8 +1597,8 @@ const Profile = () => {
               </h2>
 
               <p className="mt-1 text-sm text-slate-500">
-                Help potential matches understand your experience level and
-                schedule.
+                Help potential matches understand your
+                experience level and schedule.
               </p>
             </div>
 
@@ -1284,7 +1674,9 @@ const Profile = () => {
               >
                 <Save size={17} />
 
-                {saving ? "Saving changes..." : "Save Changes"}
+                {saving
+                  ? "Saving changes..."
+                  : "Save Changes"}
               </button>
             </div>
           </div>
